@@ -7,10 +7,10 @@ import utils
 FPS = 60
 smoothConfig = utils.getSmoothConfig()
 
-class PrimWin(pyglet.window.Window):
+class TschunkView(pyglet.window.Window):
 
     def __init__(self, filename='demo.jpg'):
-        super(PrimWin, self).__init__(fullscreen=False, caption='Tschunk!', config=smoothConfig)
+        super(TschunkView, self).__init__(fullscreen=False, caption='Tschunk!', config=smoothConfig)
 
         self.image = pyglet.resource.image(filename)
         self.sprite = pyglet.sprite.Sprite(self.image)
@@ -39,5 +39,5 @@ class PrimWin(pyglet.window.Window):
         #print x, y
 
 if __name__ == '__main__':
-    PrimWin('img/demo.jpg')
+    TschunkView('img/demo.jpg')
     sys.exit(pyglet.app.run())
