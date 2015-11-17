@@ -11,4 +11,4 @@ class TschunkMap1(): #(TschunkMap):
         self.origin_x = 1
         self.origin_y = 13
 
-        self.drop_orientation = (0, 1)
+        self.initial_direction = (0, -1)
