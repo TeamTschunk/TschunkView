@@ -4,6 +4,7 @@ from pyglet.gl import *
 import primitives
 import utils
 from map1 import *
+import threading
 
 FPS = 60
 smoothConfig = utils.getSmoothConfig()
@@ -38,7 +39,7 @@ class TschunkView(pyglet.window.Window):
         # defined framerate.  If we don't, the window will only update on events
         # like mouse motion.
 
-        pyglet.clock.schedule_interval(self.update, 1.0)
+        #pyglet.clock.schedule_interval(self.update, 1.0)
 
         self.set_size(self.image.width, self.image.height)
 
@@ -49,14 +50,34 @@ class TschunkView(pyglet.window.Window):
         self.c.render()
         #self.fps_display.draw()
 
-    def update(self, dt):
-        if self.c.y  - self.y_step > 0:
-            self.c.y -= self.y_step
+    #def update(self, dt):
+     #   if self.c.y  - self.y_step > 0:
+       #     self.c.y -= self.y_step
 
     #def on_mouse_motion(self, x, y, dx, dy):
         # nothing to do here if not in debug
         #print x, y
 
+    def run(self, callback=lambda s:None):
+        self.thread = threading.Thread(target=callback)
+        self.thread.setDaemon(True)
+        self.thread.start()
+        pyglet.app.run()
+
+    def move(self, direction):
+        (x, y) = direction
+        if self.c.y  + y * self.y_step > 0 and self.c.y  + y * self.y_step < self.image.height:
+            self.c.y += y * self.y_step
+        else:
+         return False
+        if self.c.x  + x * self.x_step > 0 and self.c.x  + x * self.x_step < self.image.width:
+            self.c.x += x * self.x_step
+        else:
+            return False
+        return True
+
 if __name__ == '__main__':
     TschunkView(TschunkMap1())
     sys.exit(pyglet.app.run())
+
+
